@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 var paths = {
 	scripts: ['client/js/**/*.js', 'client/js/*.js'],
 	libs: ['client/lib/*.js'],
-	styles: ['client/css/bootstrap.min.css'],
+	styles: ['client/css/*.css'],
 	fonts: ['client/fonts/*.*'],
 	routes: ['client/routes/*.html'],
 	templates: ['client/templates/*.ejs']

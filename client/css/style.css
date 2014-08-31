@@ -1,0 +1,35 @@
+.dropdown-menu {
+	width: 100%;
+}
+
+.mapping-row {
+	border-bottom: 1px solid #505050;
+	padding-bottom: 15px;
+}
+
+
+/*FOOTER*/
+/*from http://stackoverflow.com/questions/17966140/twitter-bootstrap-3-sticky-footer*/
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 60px;
+  background-color: #375a7f;
+  margin-bottom: 0;
+}

@@ -4,6 +4,13 @@ var Backbone = require('backbone'),
 
 var fs = require('fs');
 
+//this is https://github.com/danielfarrell/bootstrap-combobox modified for cjs
+var comboBoxPlugin = require('./../../lib/bootstrap-combobox.js');
+
+comboBoxPlugin($);
+
+Backbone.$ = $;
+
 module.exports = Backbone.View.extend({
 
 	initialize: function() {
@@ -12,6 +19,7 @@ module.exports = Backbone.View.extend({
 
 	render: function() {
 		this.$el.html(this.template(this.model.toJSON()));
+		this.$('select').combobox();
 	}
 
 
