@@ -1,0 +1,15 @@
+<div class="form-group">
+ 	<label for="pkey">Select a Primary Key</label>
+ 	<select class="form-control" id="pkey">
+ 		<!--TODO: un-inline this style-->
+ 		<option value="" style="display:none" default <% if(!pkey) { %>selected="selected"<%}%>>Choose...</option>
+ 		<% headers.forEach(function(h) { %>
+ 			<option value="<%=h%>" <%if (h === pkey) {%>selected="selected"<%}%>><%=h%></option>
+ 		<% }); %>
+ 	</select>
+
+</div>
+
+<div class="checkbox">
+	<label><input id="sorted" type="checkbox" class="checkbox disabled" checked disabled="disabled">CSV is Sorted by Primary Key</label>
+</div.

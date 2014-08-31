@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "backbone": "^1.1.2",
+    "csv2xml": "0.0.2",
+    "hapi": "^6.7.1",
     "jquery": "^2.1.1",
     "underscore": "^1.6.0"
   }

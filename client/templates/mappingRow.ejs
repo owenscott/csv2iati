@@ -1,0 +1,15 @@
+	<div class="form-group form-horizontal row">
+				<!-- <label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox1" value="option1"> -->
+		  	
+		  	<label for="<%=header%>" class="col-sm-4"><%=header%></label>
+		  	<div class="col-sm-8">
+		  		<!--TODO: there is no guarantee that headers are unique-->
+			  	<select id="<%=header%>" class="form-control input-sm">
+			  		<option value="" style="display:none" default selected="selected">Choose...</option>
+			  		<option value="iati-activities/iati-activity/title/text()">title</option>
+			  		<option value="iati-activities/iati-activity/iati-identifier/text()">iati-identifier</option>
+			  	</select>
+				</div>
+			  <!-- </label> -->
+
+	</div>
