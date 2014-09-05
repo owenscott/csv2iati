@@ -22,6 +22,8 @@ module.exports = Backbone.View.extend({
 
 	onSubmit: function() {
 
+		var self = this;
+
 		$('#interface').html('<p>Uploading file...</p>');
 		var data = new FormData();
 		data.append('sorted', this.data.get('sorted'));
@@ -49,7 +51,13 @@ module.exports = Backbone.View.extend({
 
 		var xhr = new XMLHttpRequest();
       xhr.open('POST', 'submit-data', true);
-      xhr.onload = function(e) { alert(this.responseText) };
+      xhr.onload = function(e) { 
+      	self.step.set('complete', true); 
+      	alert(this.responseText)
+      };
+      xhr.onerror = function(e) {
+      	alert('error', arguments);
+      }
       xhr.send(data);
       return false;
 		}

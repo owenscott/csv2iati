@@ -1,3 +1,9 @@
+//TODO:
+	//- figure out how to pipe to reply
+	//- CSV2XML crashes when you only have one mapping
+	//- need to sanitize XML output
+	//- 
+
 var Hapi = require('hapi'),
 	fs = require('fs'),
 	path = require('path'),
@@ -68,17 +74,23 @@ server.route({
 	method: 'POST',
 	config:{
 			payload:{
-		        maxBytes: 209715200,
-		        output:'stream',
-		        parse: true
+        maxBytes: 209715200,
+        output:'stream',
+        parse: true
 		  },
 			handler: function(request, reply) {
 				var conf = _.pick(request.payload, 'primaryKey', 'sorted', 'mapping');
 				conf.mapping = JSON.parse(conf.mapping);
 				var parser = new CSV2XML(conf);
+				parser.on('error', function(e) {
+					console.log('caught parser error');
+					reply('parser error');
+				})
+				parser.on('end', function() {
+					reply('successful parsing');
+				})
 				var outfile = fs.createWriteStream('./output.xml')
 				request.payload.file.pipe(parser).pipe(outfile);
-				// reply('Processing File');
 			}
 		}
 });

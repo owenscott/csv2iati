@@ -47,10 +47,10 @@ module.exports = Backbone.Collection.extend({
 	onCompleteChange: function(model, complete) {
 		console.log('complete changed');
 		if (complete) {
-			model.get('next').set('enabled', true);
+			model.get('next') && model.get('next').set('enabled', true);
 		}
 		else {
-			model.get('next').set('enabled', false)
+			model.get('next') && model.get('next').set('enabled', false)
 		}
 	},
 
