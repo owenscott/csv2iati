@@ -15,11 +15,20 @@ module.exports = Backbone.View.extend({
 
 	initialize: function() {
 		this.template = _.template(fs.readFileSync('./client/templates/mappingRow.ejs').toString());
+		this.model.bind('change', this.render, this);
+	},
+
+	events: {
+		'change select': 'onNewSelection'
 	},
 
 	render: function() {
 		this.$el.html(this.template(this.model.toJSON()));
 		this.$('select').combobox();
+	},
+
+	onNewSelection: function(e) {
+		this.model.set('value', e.target.value);
 	}
 
 

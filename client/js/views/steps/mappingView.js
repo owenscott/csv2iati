@@ -1,11 +1,5 @@
-//TODO: 
-//	- add autocomplete with jquery mixin
-//	- add collection for mappings with extraction and validation methods
-//		- each model should have it's value and validation state
-//	- construct views from models and have them render on change
-//	- get IATI values from API endpoint rather than hard-coded
-//		- call should have versioning, as should mapping objects
-//	- iterate through headers and do a findWhere from the collection to get mappings or add if don't exist
+//TODO: all of the code is pretty inefficient/inelegant for checking completeness
+//	(add unit tests and then fix it)
 
 var Backbone = require('backbone'),
 	_ = require('underscore'),
@@ -18,10 +12,13 @@ var MappingView = require('./mappingRowView.js'),
 
 Backbone.$ = $;
 
+var Mappings = require('./../../collections/mappings');
+
 module.exports = Backbone.View.extend({
 
 	initialize: function() {
-
+		this.collection = new Mappings();
+		this.collection.bind('change:value', this.checkComplete, this);
 	},
 
 	events: {
@@ -29,17 +26,64 @@ module.exports = Backbone.View.extend({
 	},
 
 	render: function() {
+
 		var self = this;
-		this.data.get('headers').forEach(function(h) {
-			console.log(h);
-			self.$el.append('<div>foo</div>');
+		
+		if (this.xpaths) {
+			this.assignModelsToCollection();
+			this.appendMappingsToView();
+		}
+		else {
+			this.$el.html('<p>Loading...</p>')
+			$.get('http://localhost:8000/api/xpaths/0.3', function(data) {
+				self.xpaths = data;
+				self.assignModelsToCollection();
+				self.appendMappingsToView();
+			})
+		}
+
+	},
+
+	assignModelsToCollection: function() {
+
+		var self = this;
+
+		if(!this.collection.models.length) {
+			this.data.get('headers').forEach(function(h) {
+				self.collection.add({header: h, xpaths: self.xpaths})
+			})
+		}
+
+		this.data.set('mappings', this.collection);
+
+	},
+
+	appendMappingsToView: function() {
+
+		var tempEl = $('<div></div>');
+
+		this.collection.models.forEach(function(h) {
+			var foo = tempEl.append('<div></div>').children().last();
 			var mappingView = new MappingView({
-				el: self.$el.children().last(),
-				model: new Mapping({header:h})
+				el: foo,
+				model: h
 			})
 			mappingView.render();
 		})
+
+		this.$el.html(tempEl);
+
+	},
+
+	checkComplete: function() {
+		if (!this.collection.isInvalid() && this.collection.getCount() > 0) {
+			this.step.set('complete', true);
+		}
+		else {
+			this.step.set('complete', false);
+		}
 	}
+
 
 })
 

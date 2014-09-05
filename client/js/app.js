@@ -11,8 +11,9 @@ var AppView = require('./views/appView'),
 //tasks
 var FileUpload = require('./views/steps/fileUploadView.js'),
 	PrimaryKey = require('./views/steps/primaryKeyView.js'),
-	Mapping = require('./views/steps/mappingView.js');
-
+	Mapping = require('./views/steps/mappingView.js'),
+	Instructions = require('./views/steps/instructions.js'),
+	Submit = require('./views/steps/submitView.js');
 
 $(document).ready(function() {
 
@@ -22,9 +23,16 @@ $(document).ready(function() {
 	//add steps to collection with add method to trigger listener
 
 	steps.add({
-		name:'Upload CSV File',
+		name:'Instructions',
 		enabled: true,
 		active: true,
+		complete: true,
+		task: new Instructions()
+	})
+
+	steps.add({
+		name:'Upload CSV File',
+		enabled: true,
 		task: new FileUpload(),
 		data: data
 	})
@@ -42,7 +50,9 @@ $(document).ready(function() {
 	});
 
 	steps.add({
-		name: 'Convert to XML'
+		name: 'Convert to XML',
+		task: new Submit(),
+		data: data
 	});
 
 	var appView = new AppView({

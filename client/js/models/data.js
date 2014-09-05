@@ -14,7 +14,9 @@ module.exports = Backbone.Model.extend({
 		headers: [],
 		mappings: {},
 		pkey: '',
-		sorted: true
+		sorted: true,
+		file: '',
+		fileName: ''
 	}
 
 })

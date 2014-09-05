@@ -26,6 +26,40 @@ server.route({
 	}
 });
 
+
+//mappings route
+
+server.route({
+	path: '/api/xpaths/{version}',
+	method: 'GET',
+	handler: function(request, reply) {
+		if (request.params.version === '0.3') {
+			reply([
+				{
+					value: 'iati-activities/iati-activity/iati-identifier/text()',
+					label: 'iati-identifier'
+				},
+				{
+					value: 'iati-activities/iati-activity/title/text()',
+					label: 'title'
+				},
+				{
+					value: 'iati-activities/iati-activity/sector/text()',
+					label: 'sector'
+				},
+				{
+					value: 'iati-activities/iati-activity/sector/@code',
+					label: 'sector/@code'
+				}
+			]);
+		}
+		else {
+			reply('Incorrect version number');
+		}
+
+	}
+});
+
 //file upload route
 //many thanks to http://stackoverflow.com/questions/21823379/how-to-upload-files-using-nodejs-and-hapi
 
@@ -39,9 +73,12 @@ server.route({
 		        parse: true
 		  },
 			handler: function(request, reply) {
-				var conf = _.pick(request.params, 'primaryKey', 'sorted', 'mapping');
-				console.log(request.payload);
-				reply('Processing File');
+				var conf = _.pick(request.payload, 'primaryKey', 'sorted', 'mapping');
+				conf.mapping = JSON.parse(conf.mapping);
+				var parser = new CSV2XML(conf);
+				var outfile = fs.createWriteStream('./output.xml')
+				request.payload.file.pipe(parser).pipe(outfile);
+				// reply('Processing File');
 			}
 		}
 });

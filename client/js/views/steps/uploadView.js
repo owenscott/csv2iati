@@ -1,1 +1,0 @@
-//thanks to http://stackoverflow.com/questions/21823379/how-to-upload-files-using-nodejs-and-hapi

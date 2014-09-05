@@ -64,10 +64,12 @@ module.exports = Backbone.Collection.extend({
 	_recursivelyDisableSteps: function(model) {
 		
 		if (model.get('next') && model.get('next').get('enabled') === true) {
-			model.set('enabled', false, {silent:true}); //only trigger re-rendering at end of cascade
+			model.set('enabled', false, {silent:true});
+			model.set('complete', false, {silent:true}); //only trigger re-rendering at end of cascade
 			this._recursivelyDisableSteps(model.get('next'));
 		}
 		else {
+			model.set('complete', false, {silent:true});
 			model.set('enabled', false);
 		}
 	}

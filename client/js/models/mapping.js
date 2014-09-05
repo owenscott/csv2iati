@@ -8,7 +8,13 @@ module.exports = Backbone.Model.extend({
 
 	defaults: {
 		header: '',
-		use: true
+		use: true,
+		value: '',
+		invalid: false
+	},
+
+	initialize: function() {
+		
 	}
 
 })

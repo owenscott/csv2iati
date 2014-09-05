@@ -1,15 +1,12 @@
 	<div class="form-group form-horizontal row mapping-row">
-				<!-- <label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox1" value="option1"> -->
-		  	
 		  	<label for="<%=header%>" class="col-sm-4"><%=header%></label>
 		  	<div class="col-sm-8">
 		  		<!--TODO: there is no guarantee that headers are unique-->
 			  	<select id="<%=header%>" class="form-control input-sm">
-			  		<option value="" style="display:none" default selected="selected">Choose...</option>
-			  		<option value="iati-activities/iati-activity/title/text()">title</option>
-			  		<option value="iati-activities/iati-activity/iati-identifier/text()">iati-identifier</option>
+			  		<option value="" style="display:none" default <% if (!value) { %>selected="selected"<% } %>>Choose an option (or leave blank to ignore)</option>
+			  		<% for (var p in xpaths) { %>
+			  			<option value="<%=xpaths[p].value%>" <% if(value === xpaths[p].value) {%>selected="selected"<%}%>><%=xpaths[p].label%></option>
+			  		<% } %>
 			  	</select>
 				</div>
-			  <!-- </label> -->
-
 	</div>
