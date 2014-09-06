@@ -1,4 +1,4 @@
-	<div class="form-group form-horizontal row mapping-row">
+	<div class="form-group form-horizontal row mapping-row <% if(value && !invalid) {%><%} else if(invalid) {%>has-error<%}%>">
 		  	<label for="<%=header%>" class="col-sm-4"><%=header%></label>
 		  	<div class="col-sm-8">
 		  		<!--TODO: there is no guarantee that headers are unique-->

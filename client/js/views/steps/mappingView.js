@@ -35,7 +35,11 @@ module.exports = Backbone.View.extend({
 		}
 		else {
 			this.$el.html('<p>Loading...</p>')
-			$.get('http://localhost:8000/api/xpaths/0.3', function(data) {
+			$.get('http://localhost:8000/api/xpaths/1.4', function(data) {
+				//TODO: should set content-type on the server to application/json so jquery parses automatically...
+				if (typeof data === 'string') {
+					data = JSON.parse(data);
+				}
 				self.xpaths = data;
 				self.assignModelsToCollection();
 				self.appendMappingsToView();

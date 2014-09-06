@@ -39,25 +39,10 @@ server.route({
 	path: '/api/xpaths/{version}',
 	method: 'GET',
 	handler: function(request, reply) {
-		if (request.params.version === '0.3') {
-			reply([
-				{
-					value: 'iati-activities/iati-activity/iati-identifier/text()',
-					label: 'iati-identifier'
-				},
-				{
-					value: 'iati-activities/iati-activity/title/text()',
-					label: 'title'
-				},
-				{
-					value: 'iati-activities/iati-activity/sector/text()',
-					label: 'sector'
-				},
-				{
-					value: 'iati-activities/iati-activity/sector/@code',
-					label: 'sector/@code'
-				}
-			]);
+		if (request.params.version === '1.4') {
+			// var data = fs.createReadStream('./server/data/iati-activities-1.04.json');
+			// reply(data);
+			reply.file('./server/data/iati-activities-1.04.json');
 		}
 		else {
 			reply('Incorrect version number');
@@ -90,7 +75,8 @@ server.route({
 					reply('successful parsing');
 				})
 				var outfile = fs.createWriteStream('./output.xml')
-				request.payload.file.pipe(parser).pipe(outfile);
+				request.payload.file.pipe(parser)
+				reply(parser);
 			}
 		}
 });

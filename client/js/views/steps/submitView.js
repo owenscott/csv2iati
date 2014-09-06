@@ -31,29 +31,21 @@ module.exports = Backbone.View.extend({
 		data.append('mapping', JSON.stringify(this.data.get('mappings').getFormattedMapping()));
 		data.append('file', this.data.get('file'));
 
-		//TODO: get this to work
-		// $.ajax('http://localhost:8000/submit-data', {
-		// 	type: 'POST',
-		// 	complete: function() {
-		// 		console.log('post request complete')
-		// 	},
-		// 	success: function() {
-		// 		console.log('post request success')
-		// 	},
-		// 	// contentType: 'multipart/form-data',
-		// 	data: data,
-		// 	error: function() {
-		// 		//TODO: error handling
-		// 		console.log('post request error')
-		// 	},
 
-		// })
-
+		//TODO: do some unit tests and see in how many browsers this actually works!
 		var xhr = new XMLHttpRequest();
       xhr.open('POST', 'submit-data', true);
       xhr.onload = function(e) { 
       	self.step.set('complete', true); 
-      	alert(this.responseText)
+      	//see https://stackoverflow.com/questions/16086162/handle-file-download-from-ajax-post/23797348#23797348
+        var blob = new Blob([this.responseText], {type: 'application/xml'});
+        var url = window.URL || window.webkitURL;
+        var downloadUrl = url.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = 'result.xml';
+        document.body.appendChild(a);
+        a.click();
       };
       xhr.onerror = function(e) {
       	alert('error', arguments);
