@@ -12,6 +12,14 @@ var Hapi = require('hapi'),
 
 var conf = JSON.parse(fs.readFileSync('./server/conf.json').toString());
 
+if (process.argv[2]) {
+	conf.host = process.argv[2];
+}
+
+if (process.argv[3]) {
+	conf.port = process.argv[3];
+}
+
 var server = new Hapi.Server(conf.host, conf.port);
 
 server.route({
